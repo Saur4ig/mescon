@@ -11,7 +11,7 @@ func GenSingleLineMessage(width int, message string) (string, error) {
 	sm := singleMessage{
 		width:         width,
 		message:       message,
-		messageLength: utf8.RuneCountInString(message),
+		messageLength: getMessageLength(message),
 	}
 	if width <= sm.messageLength+2 {
 		return "", fmt.Errorf("message length more, than width %d > %d", sm.messageLength, sm.width)
@@ -24,15 +24,18 @@ func GenSingleLineMessage(width int, message string) (string, error) {
 	return sm.generateSingleLineMessage(), nil
 }
 
-// generates single line message
-func (sm singleMessage) generateSingleLineMessage() string {
-	var sb strings.Builder
-	sb.WriteString(generateFullLine(sm.width))
-	sb.WriteString(generateHollowLine(sm.width))
-	sb.WriteString(wrapMessage(sm.width, sm.messageLength, sm.message))
-	sb.WriteString(generateHollowLine(sm.width))
-	sb.WriteString(generateFullLine(sm.width))
-	return sb.String()
+// generates cosy message for multiple lines messages
+func GenMultiLineMessage(width int, message string) (string, error) {
+	messages, maxLength := getMessagesAndLength(message)
+	if maxLength+2 >= width {
+		return "", fmt.Errorf("message length more, than width %d > %d", maxLength, width)
+	}
+	multi := multiLineMessage{
+		width:            width,
+		messages:         messages,
+		maxMessageLength: maxLength,
+	}
+	return multi.generateMultiLineMessage(), nil
 }
 
 // wraps message with " *"
@@ -41,40 +44,18 @@ func wrapMessage(width, messageLen int, message string) string {
 	for i := 0; i < sideAdder; i++ {
 		message = " " + message + " "
 	}
+	if sideAdder*2+messageLen != width {
+		return "*" + message + " *"
+	}
 	return "*" + message + "*"
-}
-
-// returns string full of "*"
-func generateFullLine(length int) string {
-	var sb strings.Builder
-	for i := 0; i < length; i++ {
-		sb.WriteString("*")
-	}
-	return sb.String()
-}
-
-// returns string full of "*" with a new line in the end
-func generateFullLineWithNL(length int) string {
-	return generateFullLine(length) + "\n"
-}
-
-// returns string, that starts and ends with "*", and " " between them
-func generateHollowLine(length int) string {
-	var sb strings.Builder
-	sb.WriteString("*")
-	for i := 0; i < length-2; i++ {
-		sb.WriteString(" ")
-	}
-	sb.WriteString("*")
-	return sb.String()
-}
-
-// returns string, that starts and ends with "*", and " " between them with a new line in the end
-func generateHollowLineWithNL(length int) string {
-	return generateHollowLine(length) + "\n"
 }
 
 // is string contains new line symbol
 func isMultiline(str string) bool {
 	return strings.Contains(str, "\n")
+}
+
+// get amount of chars in messages
+func getMessageLength(mes string) int {
+	return utf8.RuneCountInString(mes)
 }
