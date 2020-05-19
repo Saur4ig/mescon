@@ -44,7 +44,7 @@ func wrapMessage(width, messageLen int, message string) string {
 	for i := 0; i < sideAdder; i++ {
 		message = " " + message + " "
 	}
-	if sideAdder*2+messageLen != width {
+	if (sideAdder*2+messageLen)+2 != width {
 		return "*" + message + " *"
 	}
 	return "*" + message + "*"

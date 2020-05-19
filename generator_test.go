@@ -116,7 +116,25 @@ func Test_wrapMessage(t *testing.T) {
 				messageLen: 4,
 				message:    "test",
 			},
-			want: "*       test        *",
+			want: "*       test       *",
+		},
+		{
+			name: "Example 2",
+			args: args{
+				width:      10,
+				messageLen: 2,
+				message:    "aa",
+			},
+			want: "*   aa   *",
+		},
+		{
+			name: "Example 3",
+			args: args{
+				width:      7,
+				messageLen: 2,
+				message:    "aa",
+			},
+			want: "* aa  *",
 		},
 	}
 	for _, tt := range tests {
@@ -178,6 +196,22 @@ func TestGenMultiLineMessage(t *testing.T) {
 			},
 			want:    "",
 			wantErr: true,
+		},
+		{
+			name: "Example 2",
+			args: args{
+				width:   20,
+				message: "lets test this\ntest\nmessage",
+			},
+			want: `
+********************
+*                  *
+*  lets test this  *
+*       test       *
+*     message      *
+********************
+`,
+			wantErr: false,
 		},
 	}
 	for _, tt := range tests {
