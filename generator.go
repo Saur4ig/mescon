@@ -45,7 +45,7 @@ func GenAny(message string) (string, error) {
 	if width > MaxWidth {
 		return "", fmt.Errorf("message width more, than max width %d > %d", width, MaxWidth)
 	}
-	if len(message) > 1 {
+	if len(messages) > 1 {
 		mu := multiLineMessage{
 			width:            maxLength + SideSpaces + 2,
 			maxMessageLength: maxLength,
