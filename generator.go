@@ -38,6 +38,29 @@ func GenMultiLineMessage(width int, message string) (string, error) {
 	return multi.generateMultiLineMessage(), nil
 }
 
+// generates lovely message with any amount of lines, and without fixed width
+func GenAny(message string) (string, error) {
+	messages, maxLength := getMessagesAndLength(message)
+	width := maxLength + SideSpaces + 2
+	if width > MaxWidth {
+		return "", fmt.Errorf("message width more, than max width %d > %d", width, MaxWidth)
+	}
+	if len(message) > 1 {
+		mu := multiLineMessage{
+			width:            maxLength + SideSpaces + 2,
+			maxMessageLength: maxLength,
+			messages:         messages,
+		}
+		return mu.generateMultiLineMessage(), nil
+	}
+	sm := singleMessage{
+		width:         width,
+		message:       messages[0],
+		messageLength: maxLength,
+	}
+	return sm.generateSingleLineMessage(), nil
+}
+
 // wraps message with " *"
 func wrapMessage(width, messageLen int, message string) string {
 	sideAdder := (width - messageLen - 2) / 2

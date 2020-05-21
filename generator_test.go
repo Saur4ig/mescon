@@ -229,3 +229,58 @@ func TestGenMultiLineMessage(t *testing.T) {
 		})
 	}
 }
+
+func TestGenAny(t *testing.T) {
+	tests := []struct {
+		name    string
+		message string
+		want    string
+		wantErr bool
+	}{
+		{
+			name:    "Example 1",
+			message: "test",
+			want: `
+************
+*          *
+*   test   *
+*          *
+************
+`,
+			wantErr: false,
+		},
+		{
+			name:    "Example 2",
+			message: "sdfajsdhfhasfhgsahdfghjasdgfhjsagfjhgdhfgasdjkfkasdvfjsvdfvdnvfjdfasdfhsdjfjkashfljahsdjfhalshflkahsflkhsakfhkalhdfklahsdklfhasldhf",
+			want:    "",
+			wantErr: true,
+		},
+		{
+			name:    "Example 3",
+			message: "test\ntest",
+			want: `
+************
+*          *
+*   test   *
+*   test   *
+*          *
+************
+`,
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := GenAny(tt.message)
+			if tt.wantErr {
+				if err == nil {
+					t.Errorf("GenAny() error = %v, wantErr %v", err, tt.wantErr)
+				}
+				return
+			}
+			if reflect.DeepEqual(got, tt.want) {
+				t.Errorf("GenAny() got = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
