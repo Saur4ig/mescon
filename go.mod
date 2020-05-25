@@ -1,3 +1,3 @@
 module github.com/Saur4ig/mescon
 
-go 1.13
+go 1.14
