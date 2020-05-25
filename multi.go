@@ -19,14 +19,15 @@ func (mm multiLineMessage) generateMultiLineMessage() string {
 }
 
 // get messages as slice and max length inside
-func getMessagesAndLength(message string) ([]string, int) {
-	messages := getMessagesFromString(message)
+func getMessagesAndLength(message, separator string) ([]string, int) {
+	messages := getMessagesFromString(message, separator)
 	return messages, getMessageLengthInMessages(messages)
 }
 
 // get separate messages from one string
-func getMessagesFromString(mes string) []string {
-	return strings.Split(mes, "\n")
+func getMessagesFromString(mes, separator string) []string {
+	ss := strings.Split(mes, separator)
+	return ss
 }
 
 // get max length of message

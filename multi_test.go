@@ -40,22 +40,31 @@ func Test_getMessagesFromString(t *testing.T) {
 	tests := []struct {
 		name string
 		mes  string
+		sep  string
 		want []string
 	}{
 		{
 			name: "Example 1",
 			mes:  "test",
+			sep:  "\n",
 			want: []string{"test"},
 		},
 		{
 			name: "Example 2",
 			mes:  "first\nsecond\nthird",
+			sep:  "\n",
 			want: []string{"first", "second", "third"},
+		},
+		{
+			name: "Example 3",
+			mes:  "test||reft||third",
+			sep:  "||",
+			want: []string{"test", "reft", "third"},
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := getMessagesFromString(tt.mes); !reflect.DeepEqual(got, tt.want) {
+			if got := getMessagesFromString(tt.mes, tt.sep); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("getMessagesFromString() = %v, want %v", got, tt.want)
 			}
 		})
@@ -64,27 +73,37 @@ func Test_getMessagesFromString(t *testing.T) {
 
 func Test_getMessagesAndLength(t *testing.T) {
 	tests := []struct {
-		name    string
-		message string
-		want    []string
-		want1   int
+		name      string
+		message   string
+		separator string
+		want      []string
+		want1     int
 	}{
 		{
-			name:    "Example 1",
-			message: "testing",
-			want:    []string{"testing"},
-			want1:   7,
+			name:      "Example 1",
+			message:   "testing",
+			separator: "\n",
+			want:      []string{"testing"},
+			want1:     7,
 		},
 		{
-			name:    "Example 2",
-			message: "test\ntest\ntest",
-			want:    []string{"test", "test", "test"},
-			want1:   4,
+			name:      "Example 2",
+			message:   "test\ntest\ntest",
+			separator: "\n",
+			want:      []string{"test", "test", "test"},
+			want1:     4,
+		},
+		{
+			name:      "Example 3",
+			message:   "first/second/third",
+			separator: "/",
+			want:      []string{"first", "second", "third"},
+			want1:     6,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, got1 := getMessagesAndLength(tt.message)
+			got, got1 := getMessagesAndLength(tt.message, tt.separator)
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("getMessagesAndLength() got = %v, want %v", got, tt.want)
 			}

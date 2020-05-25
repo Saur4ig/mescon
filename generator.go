@@ -25,8 +25,12 @@ func GenSingleLineMessage(width int, message string) (string, error) {
 }
 
 // generates cosy message for multiple lines messages
-func GenMultiLineMessage(width int, message string) (string, error) {
-	messages, maxLength := getMessagesAndLength(message)
+func GenMultiLineMessage(width int, message, customSeparator string) (string, error) {
+	separator := "\n"
+	if customSeparator != "" {
+		separator = customSeparator
+	}
+	messages, maxLength := getMessagesAndLength(message, separator)
 	if maxLength+2 >= width {
 		return "", fmt.Errorf("message length more, than width %d > %d", maxLength, width)
 	}
@@ -40,7 +44,7 @@ func GenMultiLineMessage(width int, message string) (string, error) {
 
 // generates lovely message with any amount of lines, and without fixed width
 func GenAny(message string) (string, error) {
-	messages, maxLength := getMessagesAndLength(message)
+	messages, maxLength := getMessagesAndLength(message, "\n")
 	width := maxLength + SideSpaces + 2
 	if width > MaxWidth {
 		return "", fmt.Errorf("message width more, than max width %d > %d", width, MaxWidth)

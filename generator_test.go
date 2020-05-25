@@ -179,8 +179,9 @@ func Test_getMessageLength(t *testing.T) {
 
 func TestGenMultiLineMessage(t *testing.T) {
 	type args struct {
-		width   int
-		message string
+		width     int
+		message   string
+		separator string
 	}
 	tests := []struct {
 		name    string
@@ -200,8 +201,9 @@ func TestGenMultiLineMessage(t *testing.T) {
 		{
 			name: "Example 2",
 			args: args{
-				width:   20,
-				message: "lets test this\ntest\nmessage",
+				width:     20,
+				message:   "lets test this\ntest\nmessage",
+				separator: "",
 			},
 			want: `
 ********************
@@ -213,10 +215,28 @@ func TestGenMultiLineMessage(t *testing.T) {
 `,
 			wantErr: false,
 		},
+		{
+			name: "Example 3",
+			args: args{
+				width:     20,
+				message:   "test message<<one more<<and one more<<and the last one",
+				separator: "<<",
+			},
+			want: `
+********************
+*                  *
+*   test message   *
+*     one more     *
+*   and one more   *
+* and the last one *
+********************
+`,
+			wantErr: false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := GenMultiLineMessage(tt.args.width, tt.args.message)
+			got, err := GenMultiLineMessage(tt.args.width, tt.args.message, tt.args.separator)
 			if tt.wantErr {
 				if err == nil {
 					t.Errorf("GenMultiLineMessage() error = %v, wantErr %v", err, tt.wantErr)
