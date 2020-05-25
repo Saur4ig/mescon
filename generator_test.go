@@ -1,7 +1,6 @@
 package mescon
 
 import (
-	"reflect"
 	"testing"
 )
 
@@ -91,7 +90,7 @@ func TestGenSingleLineMessage(t *testing.T) {
 				}
 				return
 			}
-			if reflect.DeepEqual(got, tt.want) {
+			if got == tt.want {
 				t.Errorf("GenSingleLineMessage() got = %v, want %v", got, tt.want)
 			}
 		})
@@ -100,9 +99,8 @@ func TestGenSingleLineMessage(t *testing.T) {
 
 func Test_wrapMessage(t *testing.T) {
 	type args struct {
-		width      int
-		messageLen int
-		message    string
+		width   int
+		message string
 	}
 	tests := []struct {
 		name string
@@ -112,34 +110,39 @@ func Test_wrapMessage(t *testing.T) {
 		{
 			name: "Example 1",
 			args: args{
-				width:      20,
-				messageLen: 4,
-				message:    "test",
+				width:   20,
+				message: "test",
 			},
 			want: "*       test       *",
 		},
 		{
 			name: "Example 2",
 			args: args{
-				width:      10,
-				messageLen: 2,
-				message:    "aa",
+				width:   10,
+				message: "aa",
 			},
 			want: "*   aa   *",
 		},
 		{
 			name: "Example 3",
 			args: args{
-				width:      7,
-				messageLen: 2,
-				message:    "aa",
+				width:   7,
+				message: "aa",
 			},
 			want: "* aa  *",
+		},
+		{
+			name: "Example 4",
+			args: args{
+				width:   20,
+				message: "teston",
+			},
+			want: "*      teston      *",
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := wrapMessage(tt.args.width, tt.args.messageLen, tt.args.message); got != tt.want {
+			if got := wrapMessage(tt.args.width, tt.args.message); got != tt.want {
 				t.Errorf("wrapMessage() = %v, want %v", got, tt.want)
 			}
 		})
@@ -243,7 +246,7 @@ func TestGenMultiLineMessage(t *testing.T) {
 				}
 				return
 			}
-			if reflect.DeepEqual(got, tt.want) {
+			if got == tt.want {
 				t.Errorf("GenMultiLineMessage() got = %v, want %v", got, tt.want)
 			}
 		})
@@ -298,7 +301,7 @@ func TestGenAny(t *testing.T) {
 				}
 				return
 			}
-			if reflect.DeepEqual(got, tt.want) {
+			if got == tt.want {
 				t.Errorf("GenAny() got = %v, want %v", got, tt.want)
 			}
 		})

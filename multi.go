@@ -11,7 +11,7 @@ func (mm multiLineMessage) generateMultiLineMessage() string {
 	sb.WriteString(generateFullLineWithNL(mm.width))
 	sb.WriteString(generateHollowLineWithNL(mm.width))
 	for _, val := range mm.messages {
-		sb.WriteString(wrapMessage(mm.width, mm.maxMessageLength, val))
+		sb.WriteString(wrapMessage(mm.width, val))
 		sb.WriteString("\n")
 	}
 	sb.WriteString(generateHollowLineWithNL(mm.width))

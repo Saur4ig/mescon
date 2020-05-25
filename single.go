@@ -10,7 +10,7 @@ func (sm singleMessage) generateSingleLineMessage() string {
 	sb.WriteString("\n")
 	sb.WriteString(generateFullLine(sm.width))
 	sb.WriteString(generateHollowLine(sm.width))
-	sb.WriteString(wrapMessage(sm.width, sm.messageLength, sm.message))
+	sb.WriteString(wrapMessage(sm.width, sm.message))
 	sb.WriteString(generateHollowLine(sm.width))
 	sb.WriteString(generateFullLine(sm.width))
 	return sb.String()

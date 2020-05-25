@@ -66,12 +66,13 @@ func GenAny(message string) (string, error) {
 }
 
 // wraps message with " *"
-func wrapMessage(width, messageLen int, message string) string {
-	sideAdder := (width - messageLen - 2) / 2
+func wrapMessage(width int, message string) string {
+	mLen := getMessageLength(message)
+	sideAdder := (width - mLen - 2) / 2
 	for i := 0; i < sideAdder; i++ {
 		message = " " + message + " "
 	}
-	if (sideAdder*2+messageLen)+2 != width {
+	if (sideAdder*2+mLen)+2 != width {
 		return "*" + message + " *"
 	}
 	return "*" + message + "*"
