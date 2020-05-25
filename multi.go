@@ -7,6 +7,7 @@ import (
 // generates multi line message
 func (mm multiLineMessage) generateMultiLineMessage() string {
 	var sb strings.Builder
+	sb.WriteString("\n")
 	sb.WriteString(generateFullLineWithNL(mm.width))
 	sb.WriteString(generateHollowLineWithNL(mm.width))
 	for _, val := range mm.messages {

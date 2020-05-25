@@ -24,6 +24,7 @@ func Test_singleMessage_generateSingleLineMessage(t *testing.T) {
 				messageLength: 4,
 			},
 			want: `
+
 **********
 *        *
 *  test  *
@@ -39,6 +40,7 @@ func Test_singleMessage_generateSingleLineMessage(t *testing.T) {
 				messageLength: 14,
 			},
 			want: `
+
 ******************************
 *                            *
 *       test is - test       *

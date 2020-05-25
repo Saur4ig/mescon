@@ -133,6 +133,7 @@ func Test_multiLineMessage_generateMultiLineMessage(t *testing.T) {
 				messages:         []string{"test", "test", "test"},
 			},
 			want: `
+
 ***************
 *             *
 *    test     *
@@ -150,6 +151,7 @@ func Test_multiLineMessage_generateMultiLineMessage(t *testing.T) {
 				messages:         []string{"lolg", "test"},
 			},
 			want: `
+
 ***********
 *         *
 *  lolg   *
